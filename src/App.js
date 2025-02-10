@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Navbar from './components/Navbar';
+import TextForm from './components/TextForm';
+import Footer from './components/Footer';
 
 function App() {
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) => {
+    console.log("showAlert called:", message, type);
+    setAlert({ message, type });
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <Navbar title="WordWizard" />
+      {alert && (
+        <div
+          style={{ position: 'fixed', top: '70px', right: '20px', zIndex: 1000 }}
+          className={`alert alert-${alert.type} alert-dismissible fade show`}
+          role="alert"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          {alert.message}
+        </div>
+      )}
+        <TextForm  headings="Enter Text" showAlert={showAlert} />
+        <Footer />
+    </>
   );
 }
 
